@@ -13,9 +13,8 @@ const BRACKETS_PAIR = {
    ['7']: '7',
    ['8']: '8',
 }
+let stack = [];
 module.exports = function check(str, bracketsConfig) {
-   let stack = [];
-
    //перебираем каждый элемент строки
    for (let i = 0; i < str.length; i++) {
       let currentBreacket = str[i];
@@ -36,11 +35,8 @@ module.exports = function check(str, bracketsConfig) {
          } else {
             return false
          }
-
-         //Проверяем наш стек, если он пуст, то все правильно и вернётся true, если нет, то 
-
-         return stack.length === 0;
-
       }
    }
+   //Проверяем наш стек, если он пуст, то все правильно и вернётся true, если нет, то false
+   return stack.length === 0;
 }
