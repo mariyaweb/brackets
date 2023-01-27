@@ -1,41 +1,51 @@
 
 //Принимаем за основу открытые и закрытые скобки
 //открытые скобки
-const OPEN_BRACKETS = ['(', '{', '|', '1', '3', '5', '7', '8'];
+const OPEN_BRACKETS = ['(', '{', '|', '[', '1', '3', '5', '7', '8'];
 //соответствующие закрытые скобки
 const BRACKETS_PAIR = {
    [')']: '(',
    ['}']: '{',
    ['|']: '|',
+   [']']: '[',
    ['2']: '1',
    ['4']: '3',
    ['6']: '5',
    ['7']: '7',
    ['8']: '8',
 }
-let stack = [];
+
 module.exports = function check(str, bracketsConfig) {
-   let count = 0;
+   let stack = [];
 
    for (let i = 0; i < str.length; i++) {
+      let currentBracket = str[i];
 
-      if (str[i] == '(' || str[i] == '{' || str[i] == '|' || str[i] == '1' || str[i] == '3' || str[i] == '5' || str[i] == '7' || str[i] == '8') {
-         count++;
-      }
 
-      if (str[i] == ')' || str[i] == '}' || str[i] == '|' || str[i] == '2' || str[i] == '4' || str[i] == '6' || str[i] == '7' || str[i] == '8') {
-         count--;
-      }
+      if (OPEN_BRACKETS.includes(currentBracket)) { //
+         if (stack[stack.length - 1] === currentBracket) {
+            stack.pop();
+         } else {
+            stack.push(currentBracket);
+         }
+      } else {
+         if (stack.length === 0) {
+            return false;
+         }
 
-      if (count < 0) {
-         break;
+
+         if (BRACKETS_PAIR[currentBracket] === stack[stack.length - 1]) {
+            stack.pop();
+         } else {
+            return false;
+         }
       }
    }
-
-   if (count != 0) {
-      return false;
-   } else {
+   if (stack.length === 0) {
       return true;
+   } else {
+      return false;
    }
 
 }
+
